@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
+    <link rel="stylesheet" href="main.css">
+</head>
+
+<body style="font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">
+  
+<div class="horizontal-section">
+
+  <!-- section 1 -->
+
+  <section>
+    <div class="icon-container">
+      <i class="fas fa-bug icon"></i><br>
+      <i class="fa-solid fa-magnifying-glass"></i><br>
+      <i class="fa-solid fa-house"></i><br>
+      <i class="fa-regular fa-rectangle-list"></i><br>
+      <i class="fa-regular fa-user"></i><br>
+      <i class="fa-regular fa-bell"></i><br>
+      <i class="fa-solid fa-right-from-bracket"></i>
+    
+    </div>
+  </section>
+
+    <!-- section 2 -->
+
+    <section>
+    <div class="main-container">
+    <div class="content-container">
+        <div class="description-container">
+          <h4 style="font-size:32px">Hi Mike,<br><span style="font-size:19px;font-weight:500">welcome back.</span></h4>
+          
+        </div>
+        <div class="rounded-image-container">
+          <img src="sample.jpg" alt="Rounded Image">
+        </div>
+      </div>
+
+         
+     
+      <div class="info">
+        <h3 style="font-size:27px">Today</h3>
+        <p class="paragraph1">$19,892 <br><span style="font-size: 18px;color: rgba(85, 82, 82, 0.555);">Account Balance</span></p>
+        <p class="paragraph2">$4,000<br><span style="font-size: 18px;color: rgba(85, 82, 82, 0.555);">Year-to-Date Contribution</span></p>
+        <p class="paragraph3">$1,892 <br> <span style="font-size: 18px;color: rgba(85, 82, 82, 0.555);">Total Interest</span></p>
+
+        <button class="section2-button"> I want to    
+          <span><i class="fa-solid fa-caret-down"></i></span></button>
+<br>
+<br>
+<br>
+        <h3 style="font-weight:600;font-size: 24px;">Recent Transaction</h3>
+        <div class="transaction">
+        <p>2020-08-07 <br><span style="color:black;font-size:20px">Withdrawal Transfer to Bank-XXX11</span> </p>
+        <hr class="horizontal">
+        <p>2020-07-21 <br><span style="color:black;font-size:20px;"> Withdrawal Transfer to Bank-XXX11</span></p>
+        <hr class="horizontal">
+        <p>2020-07-16 <br><span style="color:black;font-size:20px;"> Withdrawal Transfer to Bank-XXX11</span></p>
+        </div>
+    </div>
+ </div>
+    </section>
+
+
+    <!-- section 3 -->
+
+    <section >
+       
+        <h4 style="color:rgb(102, 0, 255);font-size: 19px;margin-top: 50px;">Retirement Income<br><br><span style="color:black;font-size:29px;">Starting Year 2056</span></h4>
+    
+        <div class="numbers-row">
+          <div class="number" style="color:black">$300,000<br><span class="number-span">My Goal</span><hr class="hr-line"></div>
+          <div class="number" style="color:black">59%<br><span class="number-span">Goal Achieved</span><hr class="hr-line"></div>
+          <div class="number" style="color:black">$300<br><span class="number-span">Est. Monthly Income</span><hr class="hr-line"></div>
+      </div>
+  
+    <br>
+   
+<h2 style="font-size:27px">Contribution Overtime</h2>
+
+<div class="graph-row">
+  <div class="number employer-circle">Employer: <span class="graph-span">K 73,500</span></div>
+  <div class="number employee-circle">Employee: <span class="graph-span">K 52,500</span></div>
+  <div class="number total-interest-circle">Total Interest: <span class="graph-span">K 244,313</span></div>
+</div>
+
+<canvas id="stackedBarChart" width="610" height="265"></canvas>
+
+<script>
+    const canvas = document.getElementById('stackedBarChart');
+    const ctx = canvas.getContext('2d');
+
+    const data = [
+        { category: 'Category 1', values: [130, 30, 20] },
+        { category: 'Category 2', values: [300, 10, 30] },
+        { category: 'Category 1', values: [530, 40, 20] },
+        { category: 'Category 2', values: [390, 10, 30] },
+        { category: 'Category 1', values: [700, 240, 20] },
+        { category: 'Category 2', values: [800, 210, 30] },
+        { category: 'Category 1', values: [1130, 10, 10] },
+        { category: 'Category 2', values: [1230, 410, 30] },
+        { category: 'Category 3', values: [1150, 350, 15] },
+        { category: 'Category 1', values: [1000, 30, 20] },
+        { category: 'Category 2', values: [1190, 300, 220] },
+        { category: 'Category 1', values: [1180, 40, 20] },
+        { category: 'Category 2', values: [1220, 810, 10] },
+    ];
+
+    const categories = data.map(item => item.category);
+    const numBars = data[0].values.length;
+    const barWidth = 20; 
+    const barSpacing = 17; 
+
+    const yAxisValues = ['$0', '$100', '$200', '$300'];
+    const xAxisValues = [20, 25, 30, 35, 40, 60, 65];
+    const xAxisInterval = (canvas.width - 100) / (xAxisValues.length * 2);
+
+    const maxTotal = Math.max(...data.map(item => item.values.reduce((acc, val) => acc + val, 0)));
+
+    function drawStackedBar(x, y, values) {
+        let yOffset = 0;
+
+        const colors = ['#241571', '#2832C2', '#63C5DA'];
+
+        for (let i = 0; i < values.length; i++) {
+            const value = values[i];
+            const proportion = value / maxTotal;
+            const barHeight = proportion * (canvas.height - 10);
+
+            ctx.fillStyle = colors[i];
+            ctx.fillRect(x, canvas.height - y - barHeight, barWidth, barHeight);
+
+            yOffset += barHeight;
+        }
+    }
+    function sortByTotalValueAscending(data) {
+        return data.sort((a, b) => a.values.reduce((acc, val) => acc + val, 0) - b.values.reduce((acc, val) => acc + val, 0));
+    }
+    function drawStackedBarChart() {
+        let x = 50;
+        const sortedData = sortByTotalValueAscending(data);
+
+        for (let i = 0; i < sortedData.length; i++) {
+            const values = sortedData[i].values;
+            drawStackedBar(x, 60, values);
+
+            x += barWidth + barSpacing;
+        }
+    }
+    function drawAxis() {
+
+        ctx.setLineDash([4, 4]);
+        ctx.strokeStyle = '#ccc';
+
+        for (let i = 1; i <= 3; i++) {
+            const y = canvas.height - 40 - (i * (canvas.height - 70) / 3);
+            ctx.beginPath();
+            ctx.moveTo(50, y);
+            ctx.lineTo(canvas.width - 50, y);
+            ctx.stroke();
+
+            // Draw y-axis values
+            ctx.fillStyle = '#000';
+            ctx.fillText(yAxisValues[i], 20, y - 10);
+        }
+        ctx.fillStyle = '#000';
+        ctx.fillText(yAxisValues[0], 20, canvas.height - 55);
+
+        let x = 40 + xAxisInterval / 2;
+
+        for (let i = 0; i < xAxisValues.length; i++) {
+            ctx.fillText(xAxisValues[i], x, canvas.height - 30);
+            x += xAxisInterval * 2;
+        }
+    }
+
+    drawStackedBarChart();
+    drawAxis();
+</script>
+
+
+<h2 style="font-size:29px">How do I compare to my peers?<br><span class="spacer">These numbers represent current goal achievement</span</h2>
+
+<div class="row">
+<span>Age:  Under 30<i class="fa-solid fa-caret-down"></i></span><br><hr style="width:33%;margin-left:0px;margin-top: 20px;"><br>
+<span >Salary:  K 20-K 30 <i class="fa-solid fa-caret-down" ></i></span><br><hr style="width:33%;margin-left:0px;margin-top:20px"><br>
+<span>Gender:  Male <i class="fa-solid fa-caret-down" ></i></span>
+
+<!-- <div class="wrap-circles">
+        
+  <div class="circle per-78">
+    <div class="inner">78%</div>
+  </div>
+  <div class="circle per-95">
+    <div class="inner">95%</div>
+  </div>
+  <div class="circle per-59">
+    <div class="inner">59%</div>
+  </div>
+
+</div> -->
+
+</div>
+
+    </section>
+
+
+    <!-- section 4 -->
+
+    <section style="margin-top:32px">
+      <h2 style="font-size:27px">Retirement Strategy</h2>
+
+      <div class="strategy">
+
+          <h4 style="font-size:20px">Employee Contribution</h4>
+              <div class="strategy-bar-container">
+                  <div class="remaining-bar"></div> 
+                  <div class="strategy-bar"></div>
+                  <span style="margin-left:240px;font-weight: bold;">12%</span>
+                  <div class="circle" style="left: 40%;"></div>
+              </div>
+          
+  
+              <h4 style="font-size:20px">Retirement Age</h4>
+              <div class="strategy-bar-container">
+                  <div class="remaining-bar2"></div>          
+                  <div class="strategy-bar2" ></div>
+                  <span style="margin-left:240px;font-weight: bold;">65</span>
+                  <div class="circle" style="left: 65%;"></div>
+              </div>
+  <br>
+              <hr class="horizontal-line">
+  
+             <h4 style="font-size:20px">Employer Contribution <span class="percentage">8.4%</span></h4>
+  
+             <h4 style="font-size:20px">Interest Rate <span class="percentage" style="margin-left:150px">5%</span></h4>
+  
+             <button>Update</button>
+             <h4 class="help"> View Help Docs <i class="fas fa-angle-right"></i></h4>
+  
+      </div>
+  
+      <div class="vertical-line"></div>
+  
+      <h2 class="question" >Are you considering a<br><span style="font-weight:bold;margin-top: 50px;">Housing Advance?</span></h2>
+      <p class="para1">Limited time reduced interest</p>
+  
+      <h4 style="color:rgb(102, 0, 255);font-weight: bold;">Learn More<i class="fas fa-angle-right"></i></h4>
+  
+  
+  <script src="all.js"></script>
+    
+    </section>
+
+    
+     </div> 
+
+      
+</body>
+</html>
+
